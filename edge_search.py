@@ -2,6 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By  
 from selenium.webdriver.edge.service import Service
 from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.common.keys import Keys
 import time, os, random
 
 words = [
@@ -22,27 +23,28 @@ actions = ActionChains(driver)
 try:
 
     search_box = driver.find_element(By.NAME, 'q')
-    search_button = driver.find_element(By.ID, 'search_icon')
+    # search_button = driver.find_element(By.ID, 'search_icon')
     driver.implicitly_wait(10)
 
     actions.move_to_element(search_box).click().send_keys("Start the search").perform()
     time.sleep(2)
-    actions.move_to_element(search_button).click().perform()
+    search_box.send_keys(Keys.RETURN)
     time.sleep(3)
 
     try:
         
-        for i in range(3):
+        for i in range(20):
             word = random.choice(words) 
             
             search_box = driver.find_element(By.NAME, 'q')
-            search_button = driver.find_element(By.ID, 'sb_search')
+            # search_button = driver.find_element(By.ID, 'sb_search')
 
             search_box.clear()
             search_box.send_keys(word)
             time.sleep(2)
 
-            search_button.click()
+            search_box.send_keys(Keys.RETURN);
+            # search_button.click()
             time.sleep(4)
             print(f"Completed the serch for '{word}' with count {i+1}")
     except Exception as e:
